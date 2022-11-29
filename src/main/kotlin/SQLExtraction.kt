@@ -24,8 +24,8 @@ class SQLExtraction {
         //sql query
     }
 
-    fun extractWorkouts(): MutableList<Map<String, String>> {
-        return mutableListOf()
+    fun extractWorkouts(): MutableMap<String, String> {
+        return mutableMapOf()
     }
 
     fun connection() {

@@ -20,13 +20,14 @@ fun main(args: Array<String>) {
     var bulkList = mutableListOf<User>()
     var mainList = mutableListOf<User>()
     var cutList = mutableListOf<User>()
-/*
-    var dumSet = mutableMapOf<String, String>()
-    dumSet.put("Shoulder", "OverheadPress")
-    dumSet.put("Shoulder", "Lat Raise")
-    println(dumSet)
 
- */
+    var dumSet = mutableMapOf<String, String>()
+    dumSet.put("S1", "OverheadPress")
+    dumSet.put("S2", "Lat Raise")
+    dumSet.put("S3", "Hello")
+    println(dumSet.keys)
+
+
     var tempAmountOfUsers = 100
 
     while (tempAmountOfUsers > 0) {

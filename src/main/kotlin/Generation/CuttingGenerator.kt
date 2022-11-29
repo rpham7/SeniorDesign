@@ -1,14 +1,13 @@
 package Generation
 
 import Goal.Cutting
-import Goal.Maintaining
 import SQLExtraction
 import User
 import java.lang.Math.abs
 
 class CuttingGenerator {
     var cutting: Cutting
-    var workouts: List<Map<String, String>>
+    var workouts: Map<String, String>
     var user:User
     val nutrients:String = "Reminder to consume less carbohydrates when Cutting!"
 
@@ -38,44 +37,67 @@ class CuttingGenerator {
             }
 
         }
-        var listOfWorkouts: MutableList<Map<String, String>> = mutableListOf()
+        var listOfWorkouts: MutableMap<String, String> = mutableMapOf()
 
         for(userTempShortenList in listComparison) {
             if(listOfWorkouts.isEmpty())
                 listOfWorkouts = userTempShortenList.getWorkout()
             else {
                 for (workouts in userTempShortenList.getWorkout())
-                    listOfWorkouts.add(workouts)
+                    listOfWorkouts.put(workouts.key, workouts.value)
             }
         }
 
-        var workoutRoutine: MutableList<Map<String, String>> = mutableListOf()
+        var workoutRoutine: MutableMap<String, String> = mutableMapOf()
 
         //slow start
         if(userVO2.equals("Very Poor")) {
             //pick 2-3 workouts per session
             //pick the simpler workouts
-
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
         }
         //slow start
         else if (userVO2.equals("Poor")) {
             // pick 3 workouts per session
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
         }
         //average start
         else if (userVO2.equals("Fair")) {
             // 3-4 workouts
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3") or workouts.key.endsWith("4"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
         }
         // 4days of workout
         else if (userVO2.equals("Good")) {
             // pick 3-4 workouts per session
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3") or workouts.key.endsWith("4"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
         }
         // 5 days of workout
         else if (userVO2.equals("Excellent")) {
             //3-4
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3") or workouts.key.endsWith("4"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
         }
         // 3 days on 1 day off
         else {
             //3-4
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3") or workouts.key.endsWith("4"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
 
         }
 

@@ -10,7 +10,7 @@ class User {
     private var walkTime: Double = 0.0
     private var heartRate: Double = 0.0
     private var fitLevel: String = ""
-    private lateinit var workout:MutableList<Map<String, String>>
+    private lateinit var workout:MutableMap<String, String>
 
     constructor(age: Int, weight: Double, height: Double, bodyFat: Double, goal: String, gender:String, time:Double, rate:Double) {
         this.age = age
@@ -40,7 +40,7 @@ class User {
         return goal
     }
 
-    fun setWorkout(workouts: MutableList<Map<String, String>>) {
+    fun setWorkout(workouts: MutableMap<String, String>){
         workout = workouts
     }
 
@@ -53,7 +53,7 @@ class User {
         this.workout = temp.extractWorkouts()
     }
 
-    fun getWorkout(): MutableList<Map<String, String>> {
+    fun getWorkout(): MutableMap<String, String> {
         return workout
     }
 
