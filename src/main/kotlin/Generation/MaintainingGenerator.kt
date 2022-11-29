@@ -3,29 +3,104 @@ package Generation
 import Goal.Maintaining
 import SQLExtraction
 import User
+import java.lang.Math.abs
 
-// use userList: List<User> can work too
 class MaintainingGenerator {
-    var maintaining: Maintaining
-    var workouts: List<Map<String, String>>
-    var user: User
-    val nutrients:String = "Reminder to maintain a well balanced diet!"
+    var Maintaining: Maintaining
+    var workouts: Map<String, String>
+    var user:User
+    val nutrients:String = "Reminder to consume about the same each as before!"
 
-    constructor(maintaining: Maintaining, user:User) {
-        val temp: SQLExtraction = SQLExtraction("root", "7230")
-        this.maintaining = maintaining
+    constructor(Maintaining: Maintaining, user:User) {
+        val temp = SQLExtraction("root", "7230")
+        this.Maintaining = Maintaining
         this.workouts = temp.extractWorkouts()
         this.user = user
     }
 
-    fun generate(): Map<String, String> {
-        var temp: List<User> = maintaining.userList
+    fun generate() {
+        var temp: List<User> = Maintaining.userList
+        val fitLevel = user.getfitLevel()
+        val userVO2 = user.VO2Max()
+        var listComparison: MutableList<User> = mutableListOf()
+
         println(nutrients)
 
         //sets til failure
-        for(user in temp) {
+        for(userTemp in temp) {
+            if(abs(user.getBodyFat() - userTemp.getBodyFat()) <= 1) {
+                if (abs(user.getHeight() - userTemp.getHeight()) <= 5) {
+                    if (abs(user.getWeight() - userTemp.getWeight()) <= 10) {
+                        listComparison.add(userTemp)
+                    }
+                }
+            }
 
         }
-        return mapOf()
+        var listOfWorkouts: MutableMap<String, String> = mutableMapOf()
+
+        for(userTempShortenList in listComparison) {
+            if(listOfWorkouts.isEmpty())
+                listOfWorkouts = userTempShortenList.getWorkout()
+            else {
+                for (workouts in userTempShortenList.getWorkout())
+                    listOfWorkouts.put(workouts.key, workouts.value)
+            }
+        }
+
+        var workoutRoutine: MutableMap<String, String> = mutableMapOf()
+
+        //slow start
+        if(userVO2.equals("Very Poor")) {
+            //pick 2-3 workouts per session
+            //pick the simpler workouts
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
+        }
+        //slow start
+        else if (userVO2.equals("Poor")) {
+            // pick 3 workouts per session
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
+        }
+        //average start
+        else if (userVO2.equals("Fair")) {
+            // 3-4 workouts
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3") or workouts.key.endsWith("4"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
+        }
+        // 4days of workout
+        else if (userVO2.equals("Good")) {
+            // pick 3-4 workouts per session
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3") or workouts.key.endsWith("4"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
+        }
+        // 5 days of workout
+        else if (userVO2.equals("Excellent")) {
+            //3-4
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3") or workouts.key.endsWith("4"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
+        }
+        // 3 days on 1 day off
+        else {
+            //3-4
+            for (workouts in listOfWorkouts) {
+                if(workouts.key.endsWith("1") or workouts.key.endsWith("2") or workouts.key.endsWith("3") or workouts.key.endsWith("4"))
+                    workoutRoutine.put(workouts.key, workouts.value)
+            }
+
+        }
+
+        user.setWorkout(workoutRoutine)
     }
 }
